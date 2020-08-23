@@ -1,27 +1,26 @@
 const Sequelize = require('sequelize');
-const {STRING, INTEGER} = Sequelize;
-const acme = new Sequelize('postgres://localhost/acme_db');
+const {STRING} = Sequelize;
+//Change below for deployment
+const acme = new Sequelize('postgres://localhost/acme', {
+    //logging: false
+});
 const faker = require('faker');
 
 const Dept = acme.define('department', {
     deptName: {
         type: STRING,
-        allowNull: false,
+        //allowNull: false,
     },
-    unassigned: {
-        type: Boolean,
-        defaultValue: false
-    }
 })
 
 const Employee = acme.define('employees', {
     employName: {
         type: STRING,
-        allowNull: false
+        //allowNull: false
     },
     department: {
         type: STRING,
-        allowNull: true
+        //allowNull: true
     }
 })
 
@@ -33,15 +32,18 @@ const syncAndSeed = async()=> {
     const morePromises = []
     while(promises.length < 5){
         promises.push(
-            Dept.create({deptName: faker.commerce.department})
+            Dept.create({
+                deptName: faker.commerce.department(),
+            })
         )
     }
     const depts = await Promise.all(promises)
     while(morePromises.length < 50){
         morePromises.push(
             Employee.create({
-                employName: faker.name,
-                department: depts[Math.floor(Math.random() * depts.length)];
+                employName: faker.name.firstName(),
+                //Stopping point: department cannot be a array. need this to be a string
+                //department: depts[Math.floor(Math.random() * depts.length)]
             })
         )
     }

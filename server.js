@@ -11,7 +11,15 @@ app.use(require('body-parser').json());
 
 app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, 'index.html')));
 
-app.get('/api/employess', async (req, res, next) => {
+app.get('/api/depts', async (req, res, next) => {
+    try{
+        res.send(await Dept.findAll())
+    } catch (err) {
+        next(err)
+    }
+})
+
+app.get('/api/employees', async (req, res, next) => {
     try {
         res.send(await Employee.findAll())
     } catch(err) {

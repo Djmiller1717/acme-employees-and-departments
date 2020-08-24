@@ -13,7 +13,7 @@ const Dept = acme.define('department', {
     },
 })
 
-const Employee = acme.define('employees', {
+const Employee = acme.define('employee', {
     employName: {
         type: STRING,
         allowNull: false

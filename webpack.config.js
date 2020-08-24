@@ -1,4 +1,10 @@
 module.exports = {
+  entry: ['@babel/polyfill', './src/index.js'],
+  mode: 'development',
+  output: {
+      path: __dirname,
+      filename: './dist/main.js',
+  },
     module: {
       rules: [
         {
